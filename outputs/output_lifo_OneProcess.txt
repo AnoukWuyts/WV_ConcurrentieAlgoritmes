@@ -1,0 +1,100 @@
+GHCi, version 8.8.4: https://www.haskell.org/ghc/  :? for help
+[1 of 1] Compiling RoundRobin       ( lifo_OneProcess.hs, interpreted )
+Failed, no modules loaded.
+package flags have changed, resetting and loading new packages...
+[1 of 1] Compiling RoundRobin       ( lifo_OneProcess.hs, interpreted )
+Ok, one module loaded.
+== Functions ==
+  [] :: [a]
+ (:) :: a -> [a] -> [a]
+(++) :: [a] -> [a] -> [a]
+
+== Functions ==
+lifoOneProcess :: Action (WriterT [Char] Identity) -> WriterT [Char] Identity ()
+          stop :: Action (WriterT [Char] Identity)
+          Fork :: Action (WriterT [Char] Identity) -> Action (WriterT [Char] Identity) -> Action (WriterT [Char] Identity)
+ insertContext :: Context (WriterT [Char] Identity) -> Action (WriterT [Char] Identity) -> Action (WriterT [Char] Identity)
+        Writer :: [Char] -> Action (WriterT [Char] Identity) -> WriterT [Char] Identity (Action (WriterT [Char] Identity))
+         write :: [Char] -> WriterT [Char] Identity ()
+          Atom :: WriterT [Char] Identity (Action (WriterT [Char] Identity)) -> Action (WriterT [Char] Identity)
+          (>>) :: WriterT [Char] Identity () -> WriterT [Char] Identity () -> WriterT [Char] Identity ()
+
+WARNING: The following types have no 'Arbitrary' instance declared.
+You will not get any variables of the following types:
+  WriterT [Char] Identity (Action (WriterT [Char] Identity))
+
+WARNING: The following types have no 'Ord' or 'Observe' instance declared.
+You will not get any equations about the following types:
+  WriterT [Char] Identity (Action (WriterT [Char] Identity))
+
+== Laws ==
+  1. write [] = lifoOneProcess stop
+  2. lifoOneProcess (Fork x stop) = lifoOneProcess x
+  3. lifoOneProcess (Fork stop x) = lifoOneProcess x
+  4. x >> write [] = x
+  5. write [] >> x = x
+  6. (x >> y) >> z = x >> (y >> z)
+  7. write xs >> write ys = write (xs ++ ys)
+  8. lifoOneProcess x >> lifoOneProcess y = lifoOneProcess (Fork x y)
+  9. lifoOneProcess (Atom (Writer xs x)) = write xs >> lifoOneProcess x
+ 10. lifoOneProcess (insertContext x (Fork y stop)) = lifoOneProcess (insertContext x y)
+ 11. lifoOneProcess (insertContext x (Fork stop y)) = lifoOneProcess (insertContext x y)
+ 12. lifoOneProcess (insertContext x (Atom (Writer [] y))) = lifoOneProcess (insertContext x y)
+ 13. lifoOneProcess (insertContext x (Fork (Fork y z) w)) = lifoOneProcess (insertContext x (Fork y (Fork z w)))
+ 14. lifoOneProcess (insertContext x (Fork y (Fork stop z))) = lifoOneProcess (insertContext x (Fork y z))
+ 15. lifoOneProcess (insertContext x (insertContext y (Fork z stop))) = lifoOneProcess (insertContext x (insertContext y z))
+ 16. lifoOneProcess (insertContext x (insertContext y (Fork stop z))) = lifoOneProcess (insertContext x (insertContext y z))
+ 17. lifoOneProcess (insertContext x (Fork (Atom (Writer xs y)) z)) = lifoOneProcess (insertContext x (Atom (Writer xs (Fork y z))))
+ 18. lifoOneProcess (insertContext x (Atom (Writer xs (Fork stop y)))) = lifoOneProcess (insertContext x (Atom (Writer xs y)))
+ 19. lifoOneProcess (insertContext x (Fork y (Atom (Writer [] z)))) = lifoOneProcess (insertContext x (Fork y z))
+ 20. lifoOneProcess (insertContext x (insertContext y (Atom (Writer [] z)))) = lifoOneProcess (insertContext x (insertContext y z))
+ 21. lifoOneProcess (insertContext x (Fork y (Fork (Fork z w) x2))) = lifoOneProcess (insertContext x (Fork (Fork y z) (Fork w x2)))
+ 22. lifoOneProcess (insertContext x (insertContext y (Fork (Fork z w) x2))) = lifoOneProcess (insertContext x (insertContext y (Fork z (Fork w x2))))
+ 23. lifoOneProcess (insertContext x (Fork y (insertContext z (Fork w stop)))) = lifoOneProcess (insertContext x (Fork y (insertContext z w)))
+ 24. lifoOneProcess (insertContext x (Fork y (insertContext z (Fork stop w)))) = lifoOneProcess (insertContext x (Fork y (insertContext z w)))
+ 25. lifoOneProcess (insertContext x (Fork (insertContext y (Fork z stop)) w)) = lifoOneProcess (insertContext x (Fork (insertContext y z) w))
+ 26. lifoOneProcess (insertContext x (Fork (insertContext y (Fork stop z)) w)) = lifoOneProcess (insertContext x (Fork (insertContext y z) w))
+ 27. lifoOneProcess (insertContext x (insertContext y (Fork z (Fork stop w)))) = lifoOneProcess (insertContext x (insertContext y (Fork z w)))
+ 28. lifoOneProcess (insertContext x (insertContext y (insertContext z (Fork w stop)))) = lifoOneProcess (insertContext x (insertContext y (insertContext z w)))
+ 29. lifoOneProcess (insertContext x (insertContext y (insertContext z (Fork stop w)))) = lifoOneProcess (insertContext x (insertContext y (insertContext z w)))
+ 30. lifoOneProcess (insertContext x (Atom (Writer xs (Atom (Writer ys y))))) = lifoOneProcess (insertContext x (Atom (Writer (xs ++ ys) y)))
+ 31. lifoOneProcess (insertContext x (Atom (Writer xs (Fork (Fork y z) w)))) = lifoOneProcess (insertContext x (Fork (Atom (Writer xs y)) (Fork z w)))
+ 32. lifoOneProcess (insertContext x (Fork y (Fork (Atom (Writer xs z)) w))) = lifoOneProcess (insertContext x (Fork y (Atom (Writer xs (Fork z w)))))
+ 33. lifoOneProcess (insertContext x (insertContext y (Fork (Atom (Writer xs z)) w))) = lifoOneProcess (insertContext x (insertContext y (Atom (Writer xs (Fork z w)))))
+ 34. lifoOneProcess (insertContext x (Atom (Writer xs (insertContext y (Fork z stop))))) = lifoOneProcess (insertContext x (Atom (Writer xs (insertContext y z))))
+ 35. lifoOneProcess (insertContext x (Atom (Writer xs (insertContext y (Fork stop z))))) = lifoOneProcess (insertContext x (Atom (Writer xs (insertContext y z))))
+ 36. lifoOneProcess (insertContext x (Fork y (Atom (Writer xs (Fork stop z))))) = lifoOneProcess (insertContext x (Fork y (Atom (Writer xs z))))
+ 37. lifoOneProcess (insertContext x (Fork y (insertContext z (Atom (Writer [] w))))) = lifoOneProcess (insertContext x (Fork y (insertContext z w)))
+ 38. lifoOneProcess (insertContext x (Fork (insertContext y (Atom (Writer [] z))) w)) = lifoOneProcess (insertContext x (Fork (insertContext y z) w))
+ 39. lifoOneProcess (insertContext x (insertContext y (Atom (Writer xs (Fork stop z))))) = lifoOneProcess (insertContext x (insertContext y (Atom (Writer xs z))))
+ 40. lifoOneProcess (insertContext x (insertContext y (Fork z (Atom (Writer [] w))))) = lifoOneProcess (insertContext x (insertContext y (Fork z w)))
+ 41. lifoOneProcess (insertContext x (insertContext y (insertContext z (Atom (Writer [] w))))) = lifoOneProcess (insertContext x (insertContext y (insertContext z w)))
+ 42. lifoOneProcess (Fork x (Fork (insertContext y (Fork (Fork z w) x2)) y2)) = lifoOneProcess (Fork x (Fork (insertContext y (Fork z (Fork w x2))) y2))
+ 43. lifoOneProcess (Fork x (insertContext y (Fork z (Fork (Fork w x2) y2)))) = lifoOneProcess (Fork x (insertContext y (Fork (Fork z w) (Fork x2 y2))))
+ 44. lifoOneProcess (Fork x (insertContext y (insertContext z (Fork (Fork w x2) y2)))) = lifoOneProcess (Fork x (insertContext y (insertContext z (Fork w (Fork x2 y2)))))
+ 45. lifoOneProcess (Fork (insertContext x (Fork y (Fork (Fork z w) x2))) y2) = lifoOneProcess (Fork (insertContext x (Fork (Fork y z) (Fork w x2))) y2)
+ 46. lifoOneProcess (Fork (insertContext x (insertContext y (Fork (Fork z w) x2))) y2) = lifoOneProcess (Fork (insertContext x (insertContext y (Fork z (Fork w x2)))) y2)
+ 47. lifoOneProcess (insertContext x (Fork y (insertContext z (Fork (Fork w x2) y2)))) = lifoOneProcess (insertContext x (Fork y (insertContext z (Fork w (Fork x2 y2)))))
+ 48. lifoOneProcess (insertContext x (Fork (insertContext y (Fork (Fork z w) x2)) y2)) = lifoOneProcess (insertContext x (Fork (insertContext y (Fork z (Fork w x2))) y2))
+ 49. lifoOneProcess (insertContext x (insertContext y (Fork z (Fork (Fork w x2) y2)))) = lifoOneProcess (insertContext x (insertContext y (Fork (Fork z w) (Fork x2 y2))))
+ 50. lifoOneProcess (insertContext x (insertContext y (insertContext z (Fork (Fork w x2) y2)))) = lifoOneProcess (insertContext x (insertContext y (insertContext z (Fork w (Fork x2 y2)))))
+ 51. lifoOneProcess (insertContext x (Fork y (Fork (insertContext z (Fork w stop)) x2))) = lifoOneProcess (insertContext x (Fork y (Fork (insertContext z w) x2)))
+ 52. lifoOneProcess (insertContext x (Fork y (Fork (insertContext z (Fork stop w)) x2))) = lifoOneProcess (insertContext x (Fork y (Fork (insertContext z w) x2)))
+ 53. lifoOneProcess (insertContext x (Fork y (insertContext z (Fork w (Fork stop x2))))) = lifoOneProcess (insertContext x (Fork y (insertContext z (Fork w x2))))
+ 54. lifoOneProcess (insertContext x (Fork y (insertContext z (insertContext w (Fork x2 stop))))) = lifoOneProcess (insertContext x (Fork y (insertContext z (insertContext w x2))))
+ 55. lifoOneProcess (insertContext x (Fork y (insertContext z (insertContext w (Fork stop x2))))) = lifoOneProcess (insertContext x (Fork y (insertContext z (insertContext w x2))))
+ 56. lifoOneProcess (insertContext x (Fork (insertContext y (Fork z (Fork stop w))) x2)) = lifoOneProcess (insertContext x (Fork (insertContext y (Fork z w)) x2))
+ 57. lifoOneProcess (insertContext x (Fork (insertContext y (insertContext z (Fork w stop))) x2)) = lifoOneProcess (insertContext x (Fork (insertContext y (insertContext z w)) x2))
+ 58. lifoOneProcess (insertContext x (Fork (insertContext y (insertContext z (Fork stop w))) x2)) = lifoOneProcess (insertContext x (Fork (insertContext y (insertContext z w)) x2))
+ 59. lifoOneProcess (insertContext x (insertContext y (Fork z (insertContext w (Fork x2 stop))))) = lifoOneProcess (insertContext x (insertContext y (Fork z (insertContext w x2))))
+ 60. lifoOneProcess (insertContext x (insertContext y (Fork z (insertContext w (Fork stop x2))))) = lifoOneProcess (insertContext x (insertContext y (Fork z (insertContext w x2))))
+ 61. lifoOneProcess (insertContext x (insertContext y (Fork (insertContext z (Fork w stop)) x2))) = lifoOneProcess (insertContext x (insertContext y (Fork (insertContext z w) x2)))
+ 62. lifoOneProcess (insertContext x (insertContext y (Fork (insertContext z (Fork stop w)) x2))) = lifoOneProcess (insertContext x (insertContext y (Fork (insertContext z w) x2)))
+ 63. lifoOneProcess (insertContext x (insertContext y (insertContext z (Fork w (Fork stop x2))))) = lifoOneProcess (insertContext x (insertContext y (insertContext z (Fork w x2))))
+ 64. lifoOneProcess (insertContext x (insertContext y (insertContext z (insertContext w (Fork x2 stop))))) = lifoOneProcess (insertContext x (insertContext y (insertContext z (insertContext w x2))))
+ 65. lifoOneProcess (insertContext x (insertContext y (insertContext z (insertContext w (Fork stop x2))))) = lifoOneProcess (insertContext x (insertContext y (insertContext z (insertContext w x2))))
+ 66. lifoOneProcess (insertContext x (Atom (Writer xs (Fork (Atom (Writer ys y)) z)))) = lifoOneProcess (insertContext x (Atom (Writer (xs ++ ys) (Fork y z))))
+ 67. lifoOneProcess (insertContext x (Fork y (Atom (Writer xs (Atom (Writer ys z)))))) = lifoOneProcess (insertContext x (Fork y (Atom (Writer (xs ++ ys) z))))
+ 68. lifoOneProcess (insertContext x (insertContext y (Atom (Writer xs (Atom (Writer ys z)))))) = lifoOneProcess (insertContext x (insertContext y (Atom (Writer (xs ++ ys) z))))
+ 69. lifoOneProcess (insertContext x (Atom (Writer xs (insertContext y (Atom (Writer [] z)))))) = lifoOneProcess (insertContext x (Atom (Writer xs (insertContext y z))))
+

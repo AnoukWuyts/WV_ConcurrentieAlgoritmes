@@ -1,0 +1,42 @@
+GHCi, version 8.8.4: https://www.haskell.org/ghc/  :? for help
+[1 of 1] Compiling RoundRobin       ( lifo.hs, interpreted )
+Failed, no modules loaded.
+package flags have changed, resetting and loading new packages...
+[1 of 1] Compiling RoundRobin       ( lifo.hs, interpreted )
+Ok, one module loaded.
+== Functions ==
+  [] :: [a]
+ (:) :: a -> [a] -> [a]
+(++) :: [a] -> [a] -> [a]
+
+== Functions ==
+  lifo :: [Action (WriterT [Char] Identity)] -> WriterT [Char] Identity ()
+  stop :: Action (WriterT [Char] Identity)
+  Fork :: Action (WriterT [Char] Identity) -> Action (WriterT [Char] Identity) -> Action (WriterT [Char] Identity)
+Writer :: [Char] -> Action (WriterT [Char] Identity) -> WriterT [Char] Identity (Action (WriterT [Char] Identity))
+ write :: [Char] -> WriterT [Char] Identity ()
+  Atom :: WriterT [Char] Identity (Action (WriterT [Char] Identity)) -> Action (WriterT [Char] Identity)
+  (>>) :: WriterT [Char] Identity () -> WriterT [Char] Identity () -> WriterT [Char] Identity ()
+
+WARNING: The following types have no 'Arbitrary' instance declared.
+You will not get any variables of the following types:
+  WriterT [Char] Identity (Action (WriterT [Char] Identity))
+
+WARNING: The following types have no 'Ord' or 'Observe' instance declared.
+You will not get any equations about the following types:
+  WriterT [Char] Identity (Action (WriterT [Char] Identity))
+
+== Laws ==
+  1. write [] = lifo []
+  2. lifo (stop : xs) = lifo xs
+  3. x >> write [] = x
+  4. write [] >> x = x
+  5. (x >> y) >> z = x >> (y >> z)
+  6. write xs >> write ys = write (xs ++ ys)
+  7. lifo xs >> lifo ys = lifo (xs ++ ys)
+  8. lifo (Fork x y : xs) = lifo (x : (y : xs))
+  9. lifo (Atom (Writer xs x) : ys) = write xs >> lifo (x : ys)
+ 10. lifo (x : (Atom (Writer xs (Fork y z)) : ys)) = lifo (x : (Atom (Writer xs y) : (z : ys)))
+ 11. lifo (x : (Atom (Writer xs (Atom (Writer ys y))) : zs)) = lifo (x : (Atom (Writer (xs ++ ys) y) : zs))
+
+Leaving GHCi.
