@@ -1,0 +1,10 @@
+TB: roundr [] = return ()
+
+Bewijs:
+roundr []
+    [specificatieregel 1]
+write []
+    [def write]
+Writer [] ()
+    [def return for Writer]
+return ()

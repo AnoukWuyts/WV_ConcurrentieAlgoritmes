@@ -1,0 +1,10 @@
+TB: lifo [] = return ()
+
+Bewijs:
+lifo []
+    [specificatieregel 1]
+write []
+    [def write]
+Writer [] ()
+    [def return for Writer]
+return ()

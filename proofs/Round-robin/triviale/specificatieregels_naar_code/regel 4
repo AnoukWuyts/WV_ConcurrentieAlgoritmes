@@ -1,0 +1,13 @@
+TB: roundr (Atom w : zs)=  w >>= (\a' -> roundr (as++a'))
+w is een 
+
+(Writer str x) >>= (\a' -> roundr (as++a'))
+
+Bewijs:
+roundr (Atom (Writer str x) : zs)
+	[def specificatieregel 4]
+= write str >> roundr (as++[x])
+    [beta abstractie]
+= write str >> (\a' -> roundr (as++a')) x
+    [def >>=]
+= (Writer str x) >>= (\a' -> roundr (as++a'))

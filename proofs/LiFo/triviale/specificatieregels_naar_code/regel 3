@@ -1,0 +1,6 @@
+TB: lifo (Fork a1 a2:as) = lifo ([a1,a2]++as)
+Bewijs:
+
+lifo (Fork a1 a2:as)
+    [specificatieregel 3]
+lifo ([a1,a2]++as)

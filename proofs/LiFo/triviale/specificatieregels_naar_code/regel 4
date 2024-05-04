@@ -1,0 +1,13 @@
+TB: lifo (Atom w : zs)=  w >>= (\a' -> lifo (a':as))
+w is een 
+
+(Writer str x) >>= (\a' -> lifo (a':zs))
+
+Bewijs:
+lifo (Atom (Writer str x) : zs)
+	[def specificatieregel 4]
+= write str >> lifo (x:as)
+    [beta abstractie]
+= write str >> (\a' -> lifo (a':as)) x
+    [def >>=]
+= (Writer str x) >>= (\a' -> lifo (a':zs))
