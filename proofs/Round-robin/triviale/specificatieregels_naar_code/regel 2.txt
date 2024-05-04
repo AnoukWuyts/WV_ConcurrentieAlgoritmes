@@ -1,0 +1,6 @@
+TB: roundr (Stop:as)=roundr as
+Bewijs:
+
+roundr(Stop:as)
+    [specificatieregel 2]
+roundr as

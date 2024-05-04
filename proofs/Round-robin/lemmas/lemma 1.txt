@@ -1,0 +1,86 @@
+We bewijzen adhv het programma dat de regel roundr (l ++ (stop:ys)) = roundr (l ++ ys) geldt.
+
+Te Bewijzen: roundr (l ++ (stop:ys)) = roundr (l ++ ys)
+
+We gebruiken inductie op  l
+
+Basisstap: l=[]
+    Te Bewijzen: roundr ([] ++ (stop:ys)) = roundr ([] ++ ys)
+    Bewijs:
+    roundr ([] ++ (stop:ys))
+        [Def (++)]
+    = roundr (stop:ys)
+        [Def roundr]
+    = roundr ys
+        [Def (++)]
+    = roundr [[] ++ ys] 
+
+InductieStap: l=(x:xs)
+
+    InductieHypothese: roundr (xs ++ (stop:ys)) = roundr (xs ++ ys)
+    Te Bewijzen: roundr ((x:xs) ++ (stop:ys)) = roundr ((x:xs) ++ ys)
+    gevalsopsplitsing: x heeft als type Action m dus heeft als vorm ofwel Stop, Fork a b of Atom a.
+        x=Stop
+            TB:roundr ((stop:xs) ++ (stop:ys)) = roundr ((stop:xs) ++ ys)
+            roundr ((stop:xs) ++ (stop:ys))
+                [Def ++]
+            roundr (stop:(xs ++ (stop:ys)))
+                [Def roundr]
+            roundr ((xs ++ (stop:ys)))
+                [InductieHypothese]
+            roundr (xs ++ ys)
+                [def roundr]
+            roundr (stop:(xs ++ ys))
+                [def ++]			
+            roundr ((stop:xs) ++ ys)
+
+        x=Fork a b
+            TB:roundr ((Fork a b:xs) ++ (stop:ys)) = roundr ((Fork a b:xs)++ys)
+
+            roundr ((Fork a b:xs) ++ (stop:ys))
+                [Def ++]
+            roundr (Fork a b:(xs ++ (stop:ys)))
+                [Def roundr]
+            roundr ((xs ++ (stop:ys))++[a,b])
+                [associativiteit ++]
+            roundr (xs ++ ((stop:ys)++[a,b]))
+                [Def ++]
+            roundr (xs ++ stop:(ys++[a,b]))
+                IH
+            roundr (xs ++ (ys++[a,b]))
+                [Def roundr]
+            roundr (((xs ++ ys)++[a,b]))
+                [associativiteit ++]
+            roundr (Fork a b:(xs++ys))
+                [Def ++]
+            roundr ((Fork a b:xs)++ys)		
+        x=Atom a	
+            TB: roundr ((Atom a:xs) ++ (stop:ys)) = roundr ((Atom a:xs) ++ ys)
+            roundr ((Atom a:xs) ++ (stop:ys))
+                [Def ++]
+            roundr (Atom a:(xs ++ (stop:ys)))
+                [Def roundr]
+            x >>= (\a' -> roundr ((xs ++ (stop:ys)) ++ [a']))
+                [associativiteit ++]
+            x >>= (\a' -> roundr (xs ++ ((stop:ys) ++ [a'])))
+                [def ++]
+            x >>= (\a' -> roundr (xs ++ (stop:(ys ++ [a']))))
+                [InductieHypothese]
+            x >>= (\a' -> roundr (xs ++ (ys ++ [a'])))
+                [associativiteit (++)]
+            x >>= (\a' -> roundr ((xs ++ ys) ++ [a']))
+                [def roundr]
+            roundr (Atom x: (xs ++ ys))
+                [def (++)]
+            roundr ((Atom x: xs) ++ ys)
+
+
+
+
+
+
+	
+	
+
+
+	

@@ -6,6 +6,3 @@ lifo (Atom (Writer str x) : zs)
 = (Writer str x) >>= (\a' -> lifo (a':zs))
 	[achtergrondkennis Writer]
 = write str >> lifo (x:as) 
-
-
-
