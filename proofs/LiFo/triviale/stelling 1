@@ -1,0 +1,10 @@
+TB: lifo [] = write []
+
+Bewijs:
+lifo []
+    [def lifo]
+return ()
+    [return () heeft type M ()]
+Writer [] ()
+    [def write]
+write []

@@ -1,0 +1,11 @@
+TB: lifo (Atom (Writer str x) : zs) = write str >> lifo (x:zs)
+
+Bewijs:
+lifo (Atom (Writer str x) : zs)
+	[def lifo]
+= (Writer str x) >>= (\a' -> lifo (a':zs))
+	[achtergrondkennis Writer]
+= write str >> lifo (x:as) 
+
+
+

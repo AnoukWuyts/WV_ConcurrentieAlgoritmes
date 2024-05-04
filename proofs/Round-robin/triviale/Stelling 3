@@ -1,0 +1,6 @@
+TB: roundr (Fork a1 a2:as) = roundr (as ++ [a1,a2])
+Bewijs:
+
+roundr (Fork a1 a2:as)
+    [def roundr]
+roundr (as ++ [a1,a2])

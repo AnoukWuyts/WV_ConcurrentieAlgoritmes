@@ -1,0 +1,6 @@
+TB: lifo (Stop:as)=lifo as
+Bewijs:
+
+lifo (Stop:as)
+    [def lifo]
+lifo as

@@ -1,0 +1,13 @@
+
+Definitie Lijsten:
+[ ] ++ ys = ys
+(x : xs) ++ ys = x : (xs ++ ys)
+
+Definitie Writer monad:
+write str = Writer str ()
+Writer str1 a >> Writer str2 b = Writer (str1++str2) b
+Writer str x >>= (\a -> f a)  = Writer str () >> f x
+
+(dat write [] een neutraal element is voor de writer volgt uit write [] = Writer [] () >> Writer str2 b = Writer ([]++str2) b) = Writer str2 b
+(dat >> associatief is volgt uit de associativiteti van ++)
+(dat ++ assiciatief is volgt uit een bewijs uit het hoofdstuk "equational reasoning" in de cursus "introduction to haskell" van Tom Schrijvers)

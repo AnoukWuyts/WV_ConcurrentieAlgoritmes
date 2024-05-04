@@ -1,0 +1,11 @@
+TB: roundr (Atom (Writer str x) : zs) = write str >>' roundr (zs++[x])
+
+Bewijs:
+roundr (Atom (Writer str x) : zs)
+	[def roundr]
+= (Writer str x) >>= (\a' -> roundr (zs ++ [a']))
+	[achtergrondkennis Writer]
+= write str >> roundr (as ++ [x]) 
+
+
+

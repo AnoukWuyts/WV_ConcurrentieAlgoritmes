@@ -1,0 +1,6 @@
+TB: roundr(Stop:as)=roundr as
+Bewijs:
+
+roundr(Stop:as)
+    [def roundr]
+roundr as

@@ -1,0 +1,10 @@
+TB: roundr [] = write []
+
+Bewijs:
+roundr []
+    [def roundr]
+return ()
+    [return () heeft type M ()]
+Writer [] ()
+    [def write]
+write []
