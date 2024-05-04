@@ -1,0 +1,9 @@
+Te bewijzen: lifo (xs++(stop:ys)) = lifo (xs++ys)
+
+lifo (xs++(stop:ys))
+    [lemma 2.1]
+lifo xs >> lifo stop:ys
+    [def lifo]
+lifo xs >> lifo ys
+    [lemma 2.1]
+lifo xs ++ ys

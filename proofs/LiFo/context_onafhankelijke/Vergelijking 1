@@ -1,0 +1,119 @@
+Te bewijzen: lifoOneProcess (insertContext x (Fork stop y)) = lifoOneProcess (insertContext x y)
+
+Inductie op x:
+
+inductiebasis:
+x = Empty
+    TB: Te bewijzen: lifoOneProcess (insertContext Empty (Fork stop y))=lifoOneProcess (insertContext Empty y)
+
+    lifoOneProcess (insertContext Empty (Fork stop y))
+        [def insertContext]
+    lifoOneProcess (Fork stop y)
+        [def lifoOneProcess]
+    lifo [Fork stop y]
+        [def lifo]
+    lifo [stop,y]
+        [def lifo]
+    lifo [y]
+        [def lifoOneProcess]
+    lifoOneProcess y
+        [def insertContext]
+    lifoOneProcess (insertContext Empty y)
+
+InductieHypothese: lifoOneProcess (insertContext c (Fork stop y)) = lifoOneProcess (insertContext c y)
+
+
+x = LFork c a
+    TB: lifoOneProcess (insertContext (LFork c a) (Fork stop y)) = 
+        lifoOneProcess (insertContext (LFork c a) y)
+    lifoOneProcess (insertContext (LFork c a) (Fork stop y))
+        lifoOneProcess
+    lifoOneProcess (Fork (insertContext c (Fork stop y)) a)
+        [def lifoOneProcess]
+    lifo [Fork (insertContext c (Fork stop y)) a]
+        [def lifo]
+    lifo [(insertContext c (Fork stop y)), a]
+        [syntactic sugar haskell]
+    lifo ((insertContext c (Fork stop y)):a:[])
+        [def ++]
+    lifo [(insertContext c (Fork stop y))]++[a]
+        [lemma 2.1]
+    lifo [(insertContext c (Fork stop y))] >> lifo [a]
+        [def lifo]
+    lifoOneProcess (insertContext c (Fork stop y)) >> lifo [a]
+        [InductieHypothese]
+    lifoOneProcess (insertContext c y) >> lifo [a]
+         [def lifo]
+    lifo [(insertContext c y)] >> lifo [a]
+        [lemma 2.1]
+    lifo [(insertContext c y)]++[a]
+        [def ++]
+    lifo ((insertContext c y):[a])
+        [haskell syntactic sugar]
+    lifo  [(insertContext c y),a]
+        [def lifo]
+    lifo [Fork (insertContext c y) a]
+        [def lifoOneProcess]
+    lifoOneProcess (Fork (insertContext c y) a)
+        [def insertContext]
+    lifoOneProcess (insertContext (LFork c a) y)
+
+    
+x = RFork a c
+    TB: lifoOneProcess (insertContext (Rfork a c) (Fork stop y)) = 
+        lifoOneProcess (insertContext (Rfork a c) y)
+    lifoOneProcess (insertContext (Rfork a c) (Fork stop y))
+        [def insertContext]
+ -- insertContext (RFork action context) a = Fork action (insertContext context a)
+    lifoOneProcess (Fork a (insertContext c (Fork stop y)))
+        [def lifoOneProcess]
+    lifo [Fork a (insertContext c (Fork stop y))]
+        [def lifo]
+    lifo [a,(insertContext c (Fork stop y))]
+        [syntactic sugar haskell]
+    lifo (a:(insertContext c (Fork stop y)):[])
+        [def ++]
+    lifo [a]++[(insertContext c (Fork stop y))]
+        [lemma 2.1]
+    lifo [a] >> lifo [(insertContext c (Fork stop y))] 
+        [def lifo]
+    lifo [a] >> lifoOneProcess (insertContext c (Fork stop y))
+        [InductieHypothese]
+    lifo [a] >> lifoOneProcess (insertContext c y)
+         [def lifo]
+    lifo [a] >> lifo (insertContext c y)
+        [lemma 2.1]
+    lifo [a]++[(insertContext c y)]
+        [def ++]
+    lifo (a:[(insertContext c y)])
+        [haskell syntactic sugar]
+    lifo  [a,(insertContext c y)]
+        [def lifo]
+    lifo [Fork a (insertContext c y)]
+        [def lifoOneProcess]
+    lifoOneProcess (Fork a (insertContext c y))
+        [def insertContext]
+    lifoOneProcess (insertContext (Rfork a c) y)
+
+-- insertContext (Catom str context) a = Atom (writer (insertContext context a,str))
+x= CAtom str c
+    TB: lifoOneProcess (insertContext (CAtom  str c) (Fork stop y)) = lifoOneProcess (insertContext (CAtom  str c) y)
+    lifoOneProcess (insertContext (CAtom  str c) (Fork stop y))
+        [defl insertContext]
+    lifoOneProcess (Atom (Writer str (insertContext c (Fork stop y))))
+        [def lifoOneProcess]
+    lifo (Atom (Writer str (insertContext c (Fork stop y))))
+        [stelling 2.1]
+    write str >> lifo (insertContext c (Fork stop y)) 
+        [def lifoOneProcess]
+    write str >> lifoOneProcess (insertContext c (Fork stop y)) 
+        [InductieHypothese]
+    write str >> lifoOneProcess (insertContext c y)
+        [def lifoOneProcess]
+    write str >> lifo [insertContext c y]
+        [stelling 2.1]
+    lifo [Atom (Writer str (insertContext c y))]
+        [def lifoOneProcess]
+    lifoOneProcess (Atom (Writer str (insertContext c y)))
+        [def insertContext]
+    lifoOneProcess (insertContext (CAtom  str c) y)
