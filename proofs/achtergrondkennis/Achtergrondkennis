@@ -11,4 +11,4 @@ return a = Writer "" a
 
 (dat write [] een neutraal element is voor de writer volgt uit write [] = Writer [] () >> Writer str2 b = Writer ([]++str2) b) = Writer str2 b
 (dat >> associatief is volgt uit de associativiteti van ++)
-(dat ++ assiciatief is volgt uit een bewijs uit het hoofdstuk "equational reasoning" in de cursus "introduction to haskell" van Tom Schrijvers)
+(dat ++ associatief is volgt uit een bewijs uit het hoofdstuk "equational reasoning" in de cursus "introduction to haskell" van Tom Schrijvers)
